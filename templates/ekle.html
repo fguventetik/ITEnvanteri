@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Cihaz/Lisans Ekle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #eef2f7;
+            color: #495057;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #003f7f;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        /* Bootstrap Alert Stilleri (Flash Mesajları için) */
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        /* Sekme Navigasyonu Stilleri */
+        .nav-tabs {
+            margin-bottom: 0; /* Sekme altındaki boşluğu kaldır */
+            border-bottom-color: transparent; /* Alt çizgiyi şimdilik kaldır */
+        }
+
+         .nav-tabs .nav-item {
+             margin-bottom: -1px; /* Kenarlıkların birleşmesi için */
+         }
+
+        .nav-tabs .nav-link {
+            color: #495057;
+            border: 1px solid transparent;
+            border-top-left-radius: 0.35rem;
+            border-top-right-radius: 0.35rem;
+            margin-right: 5px;
+            transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+             background-color: #e9ecef; /* Sekme başlıkları için gri arka plan */
+        }
+
+        .nav-tabs .nav-link:hover {
+            border-color: #dee2e6 #dee2e6 #dee2e6;
+            background-color: #f8f9fa; /* Hover'da daha açık */
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #007bff;
+            background-color: #fff; /* Aktif sekme beyaz */
+            border-color: #dee2e6 #dee2e6 #fff;
+            font-weight: bold;
+        }
+
+        /* Form Bölümleri (Sekme İçerikleri) */
+        .tab-content { /* Sekme panellerini sarmalayan div */
+             border: 1px solid #dee2e6;
+             border-top: none; /* Sekme başlıklarıyla çakışmaması için */
+             border-bottom-left-radius: 0.25rem;
+             border-bottom-right-radius: 0.25rem;
+             border-top-right-radius: 0.25rem;
+             padding: 30px; /* İç boşluğu artır */
+             background-color: #fff;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: #343a40;
+        }
+
+        .form-control, .form-select {
+            border-radius: 5px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        /* Form Aksiyonları Bölümü */
+        .form-actions {
+             margin-top: 30px;
+             padding: 20px;
+             background-color: #e9ecef;
+             border-radius: 8px;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+             display: flex;
+             gap: 20px;
+             align-items: center;
+             flex-wrap: wrap;
+             justify-content: flex-end; /* Sağ tarafa yasla */
+        }
+
+        .form-actions .form-label {
+             margin-bottom: 0;
+             font-weight: 500;
+             color: #343a40;
+             flex-basis: 100px; /* Label için sabit genişlik (isteğe bağlı) */
+             text-align: right; /* Label'ı sağa yasla */
+        }
+
+         .form-actions .form-control {
+             flex-grow: 1;
+             min-width: 180px;
+             max-width: 300px; /* Kullanıcı inputu için maksimum genişlik */
+         }
+
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background-color: #28a745; /* Başarı rengi kullanıldı */
+            border-color: #28a745;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+         .btn-secondary {
+             background-color: #6c757d;
+             border-color: #6c757d;
+         }
+
+         .btn-secondary:hover {
+             background-color: #5a6268;
+             border-color: #545b62;
+             transform: translateY(-2px);
+         }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+         /* Logo Stili */
+         .logo {
+             display: block;
+             margin: 0 auto 20px auto;
+             max-width: 150px;
+             height: auto;
+         }
+
+         /* Aktif olmayan sekmelerin form alanlarını gizle (isteğe bağlı, JS de yapabilir) */
+         /* .tab-pane:not(.active) .form-control,
+         .tab-pane:not(.active) .form-select {
+             display: none;
+         } */
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        {# Flash Mesajları Alanı #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo"> {# logoyu static klasöründen çek #}
+        <h1>Envanter Kaydı Ekle</h1>
+
+        {# --- TEK FORM ETİKETİ BURADA BAŞLIYOR --- #}
+        {# form action'ı ekle route'una gönderilecek #}
+        <form method="POST" action="{{ url_for('ekle') }}">
+
+            {# Sekme Navigasyonu #}
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="bilgisayar-tab" data-bs-toggle="tab" data-bs-target="#bilgisayar_formu_tab" type="button" role="tab" aria-controls="bilgisayar_formu_tab" aria-selected="true">Bilgisayar</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="monitor-tab" data-bs-toggle="tab" data-bs-target="#monitor_formu_tab" type="button" role="tab" aria-controls="monitor_formu_tab" aria-selected="false">Monitör</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="printer-tab" data-bs-toggle="tab" data-bs-target="#printer_formu_tab" type="button" role="tab" aria-controls="printer_formu_tab" aria-selected="false">Yazıcı</a>
+                </li>
+                 <li class="nav-item" role="presentation">
+                     <a class="nav-link" id="isletim-sistemi-tab" data-bs-toggle="tab" data-bs-target="#isletim_sistemi_formu_tab" type="button" role="tab" aria-controls="isletim_sistemi_formu_tab" aria-selected="false">İşletim Sistemi</a>
+                 </li>
+                 <li class="nav-item" role="presentation">
+                     <a class="nav-link" id="office-tab" data-bs-toggle="tab" data-bs-target="#office_formu_tab" type="button" role="tab" aria-controls="office_formu_tab" aria-selected="false">Office</a>
+                 </li>
+            </ul>
+
+            {# Form İçerikleri (Sekme Panelleri) #}
+            {# Artık her sekme paneli tek bir formun içinde #}
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active form-section-content" id="bilgisayar_formu_tab" role="tabpanel" aria-labelledby="bilgisayar-tab">
+                     {# Cihaz türünü belirten hidden input #}
+                     <input type="hidden" name="cihaz_turu" value="bilgisayar"> {# Bu hidden input başlangıç değeri, JS ile güncellenecek #}
+                     <div class="mb-3">
+                         <label for="bilgisayar_ekipman_kodu" class="form-label">Ekipman Kodu:</label>
+                         <input type="text" class="form-control" id="bilgisayar_ekipman_kodu" name="ekipman_kodu" value="{{ form_data.get('ekipman_kodu', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="bilgisayar_tip" class="form-label">Tip:</label>
+                          {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol eklendi #}
+                          <select class="form-select" id="bilgisayar_tip" name="bilgisayar_tip">
+                              <option value="" disabled {% if not form_data or form_data.get('bilgisayar_tip') == '' %}selected{% endif %}>Seçiniz</option>
+                              <option value="Desktop" {% if form_data and form_data.get('bilgisayar_tip') == 'Desktop' %}selected{% endif %}>Desktop</option>
+                              <option value="Laptop" {% if form_data and form_data.get('bilgisayar_tip') == 'Laptop' %}selected{% endif %}>Laptop</option>
+                              <option value="Hepsi Bir Arada" {% if form_data and form_data.get('bilgisayar_tip') == 'Hepsi Bir Arada' %}selected{% endif %}>Hepsi Bir Arada</option>
+                          </select>
+                     </div>
+                      <div class="mb-3">
+                         <label for="bilgisayar_marka" class="form-label">Marka:</label>
+                         {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                         <select class="form-select" id="bilgisayar_marka" name="bilgisayar_marka">
+                               <option value="" disabled {% if not form_data or form_data.get('bilgisayar_marka') == '' %}selected{% endif %}>Seçiniz</option>
+                              {% for marka in bilgisayar_markalari %}
+                                   <option value="{{ marka.ad }}" {% if form_data and form_data.get('bilgisayar_marka') == marka.ad %}selected{% endif %}>{{ marka.ad }}</option>
+                              {% endfor %}
+                          </select>
+                     </div>
+                     <div class="mb-3">
+                         <label for="bilgisayar_model" class="form-label">Model:</label>
+                         <input type="text" class="form-control" id="bilgisayar_model" name="bilgisayar_model" value="{{ form_data.get('bilgisayar_model', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="bilgisayar_cpu" class="form-label">CPU:</label>
+                         <input type="text" class="form-control" id="bilgisayar_cpu" name="cpu" value="{{ form_data.get('cpu', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="bilgisayar_ram" class="form-label">RAM:</label>
+                         <input type="text" class="form-control" id="bilgisayar_ram" name="ram" value="{{ form_data.get('ram', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="bilgisayar_disk" class="form-label">Disk:</label>
+                         <input type="text" class="form-control" id="bilgisayar_disk" name="disk" value="{{ form_data.get('disk', '') if form_data }}">
+                     </div>
+                     {# Kullanıcı alanı artık form-actions div'inde, tek forma ait #}
+                </div>
+
+                <div class="tab-pane fade form-section-content" id="monitor_formu_tab" role="tabpanel" aria-labelledby="monitor-tab">
+                     {# Cihaz türünü belirten hidden input #}
+                     <input type="hidden" name="cihaz_turu" value="monitor"> {# Bu hidden input başlangıç değeri, JS ile güncellenecek #}
+                     <div class="mb-3">
+                         <label for="monitor_ekipman_kodu" class="form-label">Ekipman Kodu:</label>
+                         <input type="text" class="form-control" id="monitor_ekipman_kodu" name="ekipman_kodu" value="{{ form_data.get('ekipman_kodu', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="monitor_boyut" class="form-label">Boyut:</label>
+                          {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                          <select class="form-select" id="monitor_boyut" name="monitor_boyut">
+                               <option value="" disabled {% if not form_data or form_data.get('monitor_boyut') == '' %}selected{% endif %}>Seçiniz</option>
+                               {% for boyut in monitor_boyut %}
+                                   <option value="{{ boyut.ad }}" {% if form_data and form_data.get('monitor_boyut') == boyut.ad %}selected{% endif %}>{{ boyut.ad }}</option>
+                               {% endfor %}
+                           </select>
+                     </div>
+                     <div class="mb-3">
+                         <label for="monitor_tipi" class="form-label">Tip:</label>
+                          {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                           <select class="form-select" id="monitor_tipi" name="monitor_tipi">
+                               <option value="" disabled {% if not form_data or form_data.get('monitor_tipi') == '' %}selected{% endif %}>Seçiniz</option>
+                               {% for tip in monitor_tipleri %}
+                                   <option value="{{ tip.ad }}" {% if form_data and form_data.get('monitor_tipi') == tip.ad %}selected{% endif %}>{{ tip.ad }}</option>
+                               {% endfor %}
+                           </select>
+                     </div>
+                      <div class="mb-3">
+                         <label for="monitor_marka" class="form-label">Marka:</label>
+                          {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                           <select class="form-select" id="monitor_marka" name="monitor_marka">
+                               <option value="" disabled {% if not form_data or form_data.get('monitor_marka') == '' %}selected{% endif %}>Seçiniz</option>
+                               {% for marka in monitor_markalari %}
+                                   <option value="{{ marka.ad }}" {% if form_data and form_data.get('monitor_marka') == marka.ad %}selected{% endif %}>{{ marka.ad }}</option>
+                               {% endfor %}
+                           </select>
+                     </div>
+                     <div class="mb-3">
+                         <label for="monitor_model" class="form-label">Model:</label>
+                         <input type="text" class="form-control" id="monitor_model" name="monitor_model" value="{{ form_data.get('monitor_model', '') if form_data }}">
+                     </div>
+                      <div class="mb-3">
+                         <label for="monitor_seri_numarasi" class="form-label">Seri Numarası:</label>
+                         <input type="text" class="form-control" id="monitor_seri_numarasi" name="seri_numarasi" value="{{ form_data.get('seri_numarasi', '') if form_data }}">
+                     </div>
+                     {# Kullanıcı alanı artık form-actions div'inde, tek forma ait #}
+                </div>
+
+                <div class="tab-pane fade form-section-content" id="printer_formu_tab" role="tabpanel" aria-labelledby="printer-tab">
+                     {# Cihaz türünü belirten hidden input #}
+                     <input type="hidden" name="cihaz_turu" value="yazici"> {# Bu hidden input başlangıç değeri, JS ile güncellenecek #}
+                     <div class="mb-3">
+                         <label for="printer_ekipman_kodu" class="form-label">Ekipman Kodu:</label>
+                         <input type="text" class="form-control" id="printer_ekipman_kodu" name="ekipman_kodu" value="{{ form_data.get('ekipman_kodu', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="printer_marka" class="form-label">Marka:</label>
+                         <input type="text" class="form-control" id="printer_marka" name="printer_marka" value="{{ form_data.get('printer_marka', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="printer_model" class="form-label">Model:</label>
+                         <input type="text" class="form-control" id="printer_model" name="printer_model" value="{{ form_data.get('printer_model', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="printer_tipi" class="form-label">Tip:</label>
+                         <input type="text" class="form-control" id="printer_tipi" name="printer_tipi" value="{{ form_data.get('printer_tipi', '') if form_data }}">
+                     </div>
+                      <div class="mb-3">
+                         <label for="printer_seri_numarasi" class="form-label">Seri Numarası:</label>
+                         <input type="text" class="form-control" id="printer_seri_numarasi" name="seri_numarasi" value="{{ form_data.get('seri_numarasi', '') if form_data }}">
+                     </div>
+                     {# Kullanıcı alanı artık form-actions div'inde, tek forma ait #}
+                </div>
+
+                <div class="tab-pane fade form-section-content" id="isletim_sistemi_formu_tab" role="tabpanel" aria-labelledby="isletim-sistemi-tab">
+                     {# Cihaz türünü belirten hidden input #}
+                     <input type="hidden" name="cihaz_turu" value="sistem"> {# Bu hidden input başlangıç değeri, JS ile güncellenecek #}
+                     <div class="mb-3">
+                         <label for="sistem_ekipman_kodu" class="form-label">Ekipman Kodu:</label>
+                         <input type="text" class="form-control" id="sistem_ekipman_kodu" name="ekipman_kodu" value="{{ form_data.get('ekipman_kodu', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="sistem_versiyon" class="form-label">Sürüm:</label>
+                          {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                           <select class="form-select" id="sistem_versiyon" name="sistem_versiyon">
+                                <option value="" disabled {% if not form_data or form_data.get('sistem_versiyon') == '' %}selected{% endif %}>Seçiniz</option>
+                               {% for surum in ms_surumler %}
+                                   <option value="{{ surum.ad }}" {% if form_data and form_data.get('sistem_versiyon') == surum.ad %}selected{% endif %}>{{ surum.ad }}</option>
+                               {% endfor %}
+                           </select>
+                     </div>
+                     <div class="mb-3">
+                         <label for="sistem_lisans_no" class="form-label">Lisans No:</label>
+                         <input type="text" class="form-control" id="sistem_lisans_no" name="lisans_no" value="{{ form_data.get('lisans_no', '') if form_data }}">
+                     </div>
+                     <div class="mb-3">
+                         <label for="sistem_lisans_key" class="form-label">Lisans Key:</label>
+                         <input type="text" class="form-control" id="sistem_lisans_key" name="lisans_key" value="{{ form_data.get('lisans_key', '') if form_data }}">
+                     </div>
+                     {# Kullanıcı alanı artık form-actions div'inde, tek forma ait #}
+                </div>
+
+                 <div class="tab-pane fade form-section-content" id="office_formu_tab" role="tabpanel" aria-labelledby="office-tab">
+                      {# Cihaz türünü belirten hidden input #}
+                      <input type="hidden" name="cihaz_turu" value="office"> {# Bu hidden input başlangıç değeri, JS ile güncellenecek #}
+                      <div class="mb-3">
+                          <label for="office_ekipman_kodu" class="form-label">Ekipman Kodu:</label>
+                          <input type="text" class="form-control" id="office_ekipman_kodu" name="ekipman_kodu" value="{{ form_data.get('ekipman_kodu', '') if form_data }}">
+                      </div>
+                      <div class="mb-3">
+                          <label for="office_versiyon" class="form-label">Versiyon:</label>
+                           {# Select kutusuna hata durumunda seçilen değeri tutması için kontrol ve loop eklendi #}
+                            <select class="form-select" id="office_versiyon" name="office_versiyon">
+                                 <option value="" disabled {% if not form_data or form_data.get('office_versiyon') == '' %}selected{% endif %}>Seçiniz</option>
+                                {% for surum in office_surumler %}
+                                    <option value="{{ surum.ad }}" {% if form_data and form_data.get('office_versiyon') == surum.ad %}selected{% endif %}>{{ surum.ad }}</option>
+                                {% endfor %}
+                            </select>
+                      </div>
+                      <div class="mb-3">
+                          <label for="office_lisans_no" class="form-label">Lisans No:</label>
+                          <input type="text" class="form-control" id="office_lisans_no" name="lisans_no" value="{{ form_data.get('lisans_no', '') if form_data }}">
+                      </div>
+                      <div class="mb-3">
+                          <label for="office_lisans_key" class="form-label">Lisans Key:</label>
+                          <input type="text" class="form-control" id="office_lisans_key" name="lisans_key" value="{{ form_data.get('lisans_key', '') if form_data }}">
+                      </div>
+                      {# Kullanıcı alanı artık form-actions div'inde, tek forma ait #}
+                 </div>
+            </div> {# <-- tab-content sonu #}
+
+            {# Kullanıcı Alanı ve Ekle/Geri Dön Butonları - TEK FORMA AİT OLDUKLARI İÇİN BURADALAR #}
+            <div class="form-actions">
+                 <label for="kullanici_field" class="form-label mb-0">Kullanıcı:</label>
+                 {# Kullanıcı input alanı #}
+                 <input type="text" class="form-control" id="kullanici_field" name="kullanici" required value="{{ form_data.get('kullanici', '') if form_data }}">
+
+                 {# Ekle butonu - Bu artık yukarıdaki tek forma ait #}
+                 <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</button>
+
+                 {# Geri Dön butonu - Bu bir link olduğu için formun içinde veya dışında olabilir #}
+                 <a href="{{ url_for('index') }}" class="btn btn-secondary ms-auto"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+            </div>
+
+        </form> {# --- TEK FORM ETİKETİ BURADA SONA ERİYOR --- #}
+
+
+    </div>
+
+    {# Bootstrap JS ve Popper.js - Sekme fonksiyonelliği için gerekli #}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript, aktif sekme değiştiğinde hidden inputun değerini günceller.
+
+        const tabLinks = document.querySelectorAll('#myTab .nav-link');
+        // TEK FORM ETİKETİNİN REFERANSINI AL
+        const form = document.querySelector('.container form');
+
+        // cihaz_turu hidden inputunu bul
+        const hiddenInput = form.querySelector('input[name="cihaz_turu"]');
+
+
+        // Sayfa yüklendiğinde aktif sekmenin değerini hidden input'a yaz
+        // Bu, sayfa yüklendiğinde varsayılan olarak aktif olan sekmenin değerini doğru ayarlar.
+        const activeTabOnLoad = document.querySelector('#myTab .nav-link.active');
+        if (activeTabOnLoad) {
+             const targetId = activeTabOnLoad.getAttribute('data-bs-target').replace('#', '');
+             // ID'den cihaz türünü al (örn: "bilgisayar_formu_tab" -> "bilgisayar")
+             const cihazTuru = targetId.replace("_formu_tab", "");
+             hiddenInput.value = cihazTuru;
+             console.log("Sayfa yüklendiğinde aktif sekme:", cihazTuru); // Konsola yazdırma
+        }
+
+
+        // Sekmeler değiştiğinde çalışacak event listener
+        tabLinks.forEach(tabLink => {
+            tabLink.addEventListener('shown.bs.tab', function (event) {
+                // Yeni aktif sekmenin ID'sini al
+                const targetId = event.target.getAttribute('data-bs-target').replace('#', '');
+                // ID'den cihaz türünü çıkar
+                const cihazTuru = targetId.replace("_formu_tab", "");
+
+                // Hidden input'un değerini güncelle
+                hiddenInput.value = cihazTuru;
+
+                console.log("Aktif sekme değişti:", cihazTuru); // Konsola yazdırma
+            });
+        });
+
+    </script>
+
+</body>
+</html>
