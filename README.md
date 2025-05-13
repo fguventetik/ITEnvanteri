@@ -1,0 +1,5 @@
+![login](https://github.com/user-attachments/assets/be0c999b-1bc2-4ef3-9121-21242c8d0b17)
+![anasayfa](https://github.com/user-attachments/assets/fe9be127-66c2-4e3c-84e9-110590f8d3ce)
+![ekle](https://github.com/user-attachments/assets/e9d4c890-ed1f-4887-a584-b61f479c0317)
+![duzenle](https://github.com/user-attachments/assets/4c5331f2-a909-4c4e-9e55-6a5afb99e91a)
+![sil](https://github.com/user-attachments/assets/e71f4055-6b3c-40dc-b1dc-f97fe4ae5c6d)
